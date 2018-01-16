@@ -5,16 +5,15 @@ var    bodyParser = require('body-parser');
 var uri = "mongodb://incubator0-shard-00-00-8ano0.mongodb.net:27017,incubator0-shard-00-01-8ano0.mongodb.net:27017,incubator0-shard-00-02-8ano0.mongodb.net:27017/test?ssl=true&replicaSet=Incubator0-shard-0&authSource=admin";
 // check page https://cloud.mongodb.com/v2/5a36baacdf9db12e12181233#clusters
 var options = {
-        server: { poolSize: 5 },
+     poolSize: 5,
+    user: "mogikan",
+    pass: "greencrest",
         useMongoClient: true
     }
-    // mongoose.connect(uri, options);
-// const connection = mongoose.connect(uri, options);
 
 
-//var db = mongoose.connect('mongodb+srv://tamholmlohmat:Sch!ph0l@incubator0-wpeiv.mongodb.net/test');
-//var db = mongoose.connect('mongodb://tamholmlohmat:Sch!ph0l@incubator0-shard-00-00-8ano0.mongodb.net:27017,incubator0-shard-00-01-8ano0.mongodb.net:27017,incubator0-shard-00-02-8ano0.mongodb.net:27017/admin?replicaSet=Incubator0-shard-0&ssl=true');
 var db = mongoose.connect(uri,options);
+
 var Book = require('./models/bookModel');
 var app = express();
 var port = process.env.port || 3000;
