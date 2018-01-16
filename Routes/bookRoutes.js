@@ -3,12 +3,36 @@ var express = require("express");
 var routes = function(Book) {
   var bookRouter = express.Router();
 
+    bookRouter
+        .route("/books")
+        .post(function(req, res) {
+            var book1 = new Book(req.body);
+
+            // console.log(req.header);
+
+            // console.log(req);
+            // console.log(book1);
+            book1.save();
+            res.status(201).send(book1);
+        })
+        .get(function(req, res) {
+            var query = req.query;
+
+            Book.find(query, function(err, books) {
+                if (err) {
+                    res.status(500).send(err); // console.log(err);
+                } else {
+                    res.json(books);
+                }
+            });
+        });
+
   bookRouter.use("/:bookId", function(req, res, next) {
     Book.findById(req.params.bookId, function(err, book) {
       if (err) {
         res.status(500).send(err); // console.log(err);
       } else if (book) {
-        res.book = book;
+        req.book = book;
         next();
       } else {
         res.status(404).send("no book found");
@@ -16,29 +40,7 @@ var routes = function(Book) {
     });
   });
 
-  bookRouter
-    .route("/books")
-    .post(function(req, res) {
-      var book1 = new Book(req.body);
 
-      // console.log(req.header);
-
-      // console.log(req);
-      // console.log(book1);
-      book1.save();
-      res.status(201).send(book1);
-    })
-    .get(function(req, res) {
-      var query = req.query;
-
-      Book.find(query, function(err, books) {
-        if (err) {
-          res.status(500).send(err); // console.log(err);
-        } else {
-          res.json(books);
-        }
-      });
-    });
 
   bookRouter
     .route("/books/:bookId")
